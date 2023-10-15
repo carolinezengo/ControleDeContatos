@@ -86,3 +86,4 @@ C:\Users\Rodrigo\source\repos\ControleDeContatos\ControleDeContatos\bin\Debug\ne
 C:\Users\Rodrigo\source\repos\ControleDeContatos\ControleDeContatos\obj\Debug\net6.0\ControleDeContatos.csproj.AssemblyReference.cache
 C:\Users\Rodrigo\source\repos\ControleDeContatos\ControleDeContatos\obj\Debug\net6.0\ControleDeContatos.csproj.CopyComplete
 C:\Users\Rodrigo\source\repos\ControleDeContatos\ControleDeContatos\obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutDeslogada.cshtml.rz.scp.css
+C:\Users\Rodrigo\source\repos\ControleDeContatos\ControleDeContatos\bin\Debug\net6.0\Newtonsoft.Json.dll
