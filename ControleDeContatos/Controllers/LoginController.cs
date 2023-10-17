@@ -9,11 +9,12 @@ namespace ControleDeContatos.Controllers
     {
         private readonly ISessao _sessao;
         private readonly IUsuarioRepositorio _usuarioRepositorio;
-
-        public LoginController(IUsuarioRepositorio usuarioRepositorio, ISessao sessao)
+        private readonly IEmail _email;
+        public LoginController(IUsuarioRepositorio usuarioRepositorio, ISessao sessao, IEmail email)
         {
             _sessao = sessao;
             _usuarioRepositorio = usuarioRepositorio;
+            _email = email;
         }
 
             public IActionResult Index()
@@ -74,6 +75,56 @@ namespace ControleDeContatos.Controllers
 
 
 
+
+        }
+
+        [HttpPost] 
+        public IActionResult EnviarLinkParaRedefinirSenha(RedefinirSenhaModel redefinirsenhamodel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                
+                    UsuarioModel usuario = _usuarioRepositorio.BuscarPorLoginEEmail( redefinirsenhamodel.Login, redefinirsenhamodel.Email);
+                    if (usuario != null)
+                    {
+                        string novaSenha = usuario.GerarNovaSenha();
+                        string mensagem = $"Sua nova senha é: {novaSenha}";
+                        bool emailEnviado = _email.Enviar(usuario.Email,"Sistema de contato nova senha", mensagem);
+
+                        if (emailEnviado)
+                        {
+                            _usuarioRepositorio.Alterar(usuario);
+                            TempData["MensagemSucesso"] = $"Enviamos para seu email cadastro de uma nova senha";
+                        }
+                        else
+                        {
+
+                            TempData["MensagemERRO"] = $"Não conseguimos enviar o  email ";
+
+                        }
+
+                        return RedirectToAction("Index", "Login");
+                       
+                    }
+
+                    TempData["MensagemERRO"] = $"Não conseguir definir a senha. Tente Novamente";
+
+
+                }   
+                return View("Index");
+            }
+              catch (Exception erro)
+            {
+                TempData["MensagemERRO"] = $"Não conseguimos redefinir sua senha";
+                return RedirectToAction("Index");
+            }   
+        }
+
+        public IActionResult RedefinirSenha()
+        {
+            return View();  
         }
     }
 }
