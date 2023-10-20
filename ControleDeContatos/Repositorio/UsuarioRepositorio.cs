@@ -1,6 +1,7 @@
 ﻿using ControleDeContatos.Controllers;
 using ControleDeContatos.Data;
 using ControleDeContatos.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace ControleDeContatos.Repositorio
@@ -53,7 +54,10 @@ namespace ControleDeContatos.Repositorio
 
         public List<UsuarioModel> Buscartodos()
         {
-            return _bancoContext.Usuario.ToList();
+            //Incluir virtual a lista de contatos
+            return _bancoContext.Usuario
+                .Include(x => x.Contatos)
+                .ToList();
         }
 
         public bool Deletar(int id)

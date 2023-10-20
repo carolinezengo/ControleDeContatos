@@ -4,10 +4,27 @@
 // Write your JavaScript code.
 
 //Funçao de funcionar e traduzir a DATATABLE
-$(document).ready(function () {
+$(document).ready(function() {
 
     getDatatable('#table-contatos');
-    getDatatable('#table-usuario')
+    getDatatable('#table-usuario');
+
+    // funçao de clicar modal
+    $('.btncontatos').click(function() {
+        var usuarioId = $(this).attr('usuario-id');
+      $.ajax({
+        type: 'GET',
+          url: '/Usuario/ListarContatosPorUsuarioId/' + usuarioId,
+          success: function (result) {
+              $("#listaContatosUsuario").html(result);
+              $('#modalteste').modal('show');
+
+              getDatatable('#table-contatos-usuario');
+          }
+       
+      });
+    });
+    
 
 })
 

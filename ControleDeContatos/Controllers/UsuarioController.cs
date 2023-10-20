@@ -9,10 +9,13 @@ namespace ControleDeContatos.Controllers
     public class UsuarioController : Controller
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;
+        private readonly IContatoRepositorio _contatorepositorio;
 
-        public UsuarioController(IUsuarioRepositorio usuarioRepositorio)
+
+        public UsuarioController(IUsuarioRepositorio usuarioRepositorio, IContatoRepositorio contatoRepositorio)
         {
             _usuarioRepositorio = usuarioRepositorio;
+            _contatorepositorio = contatoRepositorio;
         }
         public IActionResult Index()
         {
@@ -77,6 +80,12 @@ namespace ControleDeContatos.Controllers
 
 
             }
+        }
+        // preencher a tabela modal
+        public IActionResult ListarContatosPorUsuarioId(int id)
+        {
+            List<ContatoModel> contatos = _contatorepositorio.Buscartodos(id);
+            return PartialView("_ContatosUsuario", contatos);
         }
         [HttpPost]
         public IActionResult Editar(UsuarioModel usuario)
